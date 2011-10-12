@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * Module file for "Copyright block module".
+ */
+
+/**
+ * Implements hook_block_info().
+ *
+ * Provides one block names 'copyright' that is globally cached.
+ */
+function copyright_block_module_block_info() {
+  $blocks['copyright'] = array(
+    'info' => t('Copyright'),
+    'cache' => DRUPAL_CACHE_GLOBAL
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Renders a HTML-span containing the copyright information.
+ */
+function copyright_block_module_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'copyright':
+      $block['subject'] = t('Copyright');
+      $year = variable_get('copyright_block_module_inceptionyear');
+      if ($year) {
+      	$year .= ' - '.date('Y', time());
+      } else {
+        $year = date('Y', time());
+      }
+      $holder = variable_get('copyright_block_module_copyrightholder');
+      if (!$holder) {
+        $holder = variable_get('site_name', '');
+      }
+      $block['content'] = '<span class="copyright">&copy; '.$holder.' '.$year.'</span>';
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_block_configure().
+ *
+ * Creates the form data to set the copyright holder and the inception year.
+ */
+function copyright_block_module_block_configure($delta = '') {
+  $form = array();
+  if ($delta == 'copyright') {
+    $form['copyright_block_module_copyrightholder'] = array (
+      '#type' => 'textfield',
+      '#title' => t('Copyright holder'),
+      '#size' => 64,
+      '#description' => t('Name of the copyright holder. Leave empty to use the site name.'),
+      '#default_value' => variable_get('copyright_block_module_copyrightholder')
+    );
+    $form['copyright_block_module_inceptionyear'] = array (
+      '#type' => 'textfield',
+      '#title' => t('Copyright starting year'),
+      '#size' => 64,
+      '#description' => t('Year the copyright starts. Leave empty to only show current year.'),
+      '#default_value' => variable_get('copyright_block_module_inceptionyear')
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ *
+ * Stores the copyright holder and the inception year.
+ */
+function copyright_block_module_block_save($delta = '', $edit = array()) {
+  if ($delta == 'copyright') {
+    variable_set('copyright_block_module_copyrightholder', $edit['copyright_block_module_copyrightholder'] == variable_get('site_name', '') ? '' : $edit['copyright_block_module_copyrightholder']);
+    variable_set('copyright_block_module_inceptionyear', $edit['copyright_block_module_inceptionyear']);
+  }
+}

@@ -1,0 +1,8 @@
+name = Copyright Block Module
+description = Adds a copyright block to be placed on the site
+package = Blocks
+core = 7.x
+files[] = copyright_block_module.module
+files[] = copyright_block_module.install
+
+configure = admin/system/copyright
