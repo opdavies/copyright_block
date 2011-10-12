@@ -75,7 +75,7 @@ function copyright_block_module_block_configure($delta = '') {
     $form['copyright_block_module_inceptionyear'] = array (
       '#type' => 'textfield',
       '#title' => t('Copyright starting year'),
-      '#size' => 64,
+      '#size' => 8,
       '#description' => t('Year the copyright starts. Leave empty to only show current year.'),
       '#default_value' => variable_get('copyright_block_module_inceptionyear')
     );
