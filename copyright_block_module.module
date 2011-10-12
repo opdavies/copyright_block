@@ -8,7 +8,7 @@
 /**
  * Implements hook_block_info().
  *
- * Provides one block names 'copyright' that is globally cached.
+ * Provides one block named 'Copyright' that is globally cached.
  */
 function copyright_block_module_block_info() {
   $blocks['copyright'] = array(
@@ -27,17 +27,26 @@ function copyright_block_module_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'copyright':
-      $block['subject'] = t('Copyright');
+
+      // Check if an inception year is given
       $year = variable_get('copyright_block_module_inceptionyear');
       if ($year) {
+        // Show something like 2003-2011
       	$year .= ' - '.date('Y', time());
       } else {
+        // Show only the current year
         $year = date('Y', time());
       }
+
+      // Check if there is a name for the copyright holder
       $holder = variable_get('copyright_block_module_copyrightholder');
       if (!$holder) {
+        // No holder given, default to site name
         $holder = variable_get('site_name', '');
       }
+
+      // Create the block
+      $block['subject'] = t('Copyright');
       $block['content'] = '<span class="copyright">&copy; '.$holder.' '.$year.'</span>';
       break;
   }
@@ -52,6 +61,8 @@ function copyright_block_module_block_view($delta = '') {
 function copyright_block_module_block_configure($delta = '') {
   $form = array();
   if ($delta == 'copyright') {
+
+    // Plain text field for the name of the copyright holder
     $form['copyright_block_module_copyrightholder'] = array (
       '#type' => 'textfield',
       '#title' => t('Copyright holder'),
@@ -59,6 +70,8 @@ function copyright_block_module_block_configure($delta = '') {
       '#description' => t('Name of the copyright holder. Leave empty to use the site name.'),
       '#default_value' => variable_get('copyright_block_module_copyrightholder')
     );
+
+    // Plain text field for the year the copyright starts
     $form['copyright_block_module_inceptionyear'] = array (
       '#type' => 'textfield',
       '#title' => t('Copyright starting year'),
