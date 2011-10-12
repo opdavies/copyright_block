@@ -90,7 +90,11 @@ function copyright_block_module_block_configure($delta = '') {
  */
 function copyright_block_module_block_save($delta = '', $edit = array()) {
   if ($delta == 'copyright') {
-    variable_set('copyright_block_module_copyrightholder', $edit['copyright_block_module_copyrightholder'] == variable_get('site_name', '') ? '' : $edit['copyright_block_module_copyrightholder']);
+    $copyright_block_module_copyrightholder = $edit['copyright_block_module_copyrightholder'];
+    if ($copyright_block_module_copyrightholder == variable_get('site_name', '')) {
+      $copyright_block_module_copyrightholder = '';
+    }
+    variable_set('copyright_block_module_copyrightholder', $copyright_block_module_copyrightholder);
     variable_set('copyright_block_module_inceptionyear', $edit['copyright_block_module_inceptionyear']);
   }
 }
