@@ -1,4 +1,4 @@
-name = Copyright Block Module
+name = Copyright block
 description = Adds a copyright block to be placed on the site
 package = Blocks
 core = 7.x
