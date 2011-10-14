@@ -14,3 +14,4 @@ function copyright_block_uninstall() {
 
   db_delete('block')->condition('module', 'copyright_block')->condition('delta', 'copyright')->execute();
 }
+

@@ -103,3 +103,4 @@ function copyright_block_block_save($delta = '', $edit = array()) {
     variable_set('copyright_block_inceptionyear', $copyright_block_inceptionyear);
   }
 }
+
