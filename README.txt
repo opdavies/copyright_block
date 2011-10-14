@@ -41,3 +41,4 @@ like
   "© My Drupal page 2008-2011"
 
 The variable used to store the value is "copyright_block_inceptionyear"
+
