@@ -32,10 +32,10 @@ function copyright_block_module_block_view($delta = '') {
       $year = variable_get('copyright_block_module_inceptionyear');
       if ($year) {
         // Show something like 2003-2011
-      	$year .= ' - '.date('Y', time());
+      	$year .= ' - '.date('Y', REQUEST_TIME);
       } else {
         // Show only the current year
-        $year = date('Y', time());
+        $year = date('Y', REQUEST_TIME);
       }
 
       // Check if there is a name for the copyright holder
