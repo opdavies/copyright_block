@@ -12,5 +12,5 @@ function copyright_block_module_uninstall() {
   variable_del('copyright_block_module_inceptionyear');
   variable_del('copyright_block_module_copyrightholder');
 
-  db_query("DELETE FROM {blocks} WHERE module = '%s' AND delta = '%s'", 'copyright_block_module', 'copyright');
+  db_delete('block')->condition('module', 'copyright_block_module')->condition('delta', 'copyright')->execute();
 }
