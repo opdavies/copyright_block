@@ -96,6 +96,10 @@ function copyright_block_module_block_save($delta = '', $edit = array()) {
     }
     variable_set('copyright_block_module_copyrightholder', $copyright_block_module_copyrightholder);
     $copyright_block_module_inceptionyear = check_plain($edit['copyright_block_module_inceptionyear']);
+    $current_year = (int) date('Y', REQUEST_TIME);
+    if ((int) $copyright_block_module_inceptionyear > $current_year) {
+      $copyright_block_module_inceptionyear = $current_year;
+    }
     variable_set('copyright_block_module_inceptionyear', $copyright_block_module_inceptionyear);
   }
 }
