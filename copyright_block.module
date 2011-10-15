@@ -13,7 +13,7 @@
 function copyright_block_block_info() {
   $blocks['copyright'] = array(
     'info' => t('Copyright'),
-    'cache' => DRUPAL_CACHE_GLOBAL
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   return $blocks;
 }
@@ -28,26 +28,27 @@ function copyright_block_block_view($delta = '') {
   switch ($delta) {
     case 'copyright':
 
-      // Check if an inception year is given
-      $year = check_plain(variable_get('copyright_block_inceptionyear'));
+      // Check if an inception year is given.
+      $year = variable_get('copyright_block_inceptionyear');
       if ($year) {
-        // Show something like 2003-2011
-      	$year .= ' - '.date('Y', REQUEST_TIME);
-      } else {
-        // Show only the current year
+        // Show something like 2003 - 2011.
+        $year .= ' - ' . date('Y', REQUEST_TIME);
+      }
+      else {
+        // Show only the current year.
         $year = date('Y', REQUEST_TIME);
       }
 
-      // Check if there is a name for the copyright holder
-      $holder = check_plain(variable_get('copyright_block_copyrightholder'));
+      // Check if there is a name for the copyright holder.
+      $holder = variable_get('copyright_block_copyrightholder');
       if (!$holder) {
-        // No holder given, default to site name
-        $holder = check_plain(variable_get('site_name', ''));
+        // No holder given, default to site name.
+        $holder = variable_get('site_name', '');
       }
 
-      // Create the block
+      // Create the block.
       $block['subject'] = t('Copyright');
-      $block['content'] = '<span class="copyright">&copy; '.$holder.' '.$year.'</span>';
+      $block['content'] = '<span class="copyright">&copy; ' . check_plain($holder) . ' ' . $year . '</span>';
       break;
   }
   return $block;
@@ -62,22 +63,23 @@ function copyright_block_block_configure($delta = '') {
   $form = array();
   if ($delta == 'copyright') {
 
-    // Plain text field for the name of the copyright holder
-    $form['copyright_block_copyrightholder'] = array (
+    // Plain text field for the name of the copyright holder.
+    $form['copyright_block_copyrightholder'] = array(
       '#type' => 'textfield',
       '#title' => t('Copyright holder'),
       '#size' => 64,
       '#description' => t('Name of the copyright holder. Leave empty to use the site name.'),
-      '#default_value' => check_plain(variable_get('copyright_block_copyrightholder'))
+      '#default_value' => variable_get('copyright_block_copyrightholder'),
     );
 
-    // Plain text field for the year the copyright starts
-    $form['copyright_block_inceptionyear'] = array (
+    // Plain text field for the year the copyright starts.
+    $inceptionyear = variable_get('copyright_block_inceptionyear');
+    $form['copyright_block_inceptionyear'] = array(
       '#type' => 'textfield',
       '#title' => t('Copyright starting year'),
       '#size' => 8,
       '#description' => t('Year the copyright starts. Leave empty to only show current year.'),
-      '#default_value' => check_plain(variable_get('copyright_block_inceptionyear'))
+      '#default_value' => $inceptionyear ? $inceptionyear : '',
     );
   }
   return $form;
@@ -90,14 +92,14 @@ function copyright_block_block_configure($delta = '') {
  */
 function copyright_block_block_save($delta = '', $edit = array()) {
   if ($delta == 'copyright') {
-    $copyright_block_copyrightholder = check_plain($edit['copyright_block_copyrightholder']);
-    if ($copyright_block_copyrightholder == check_plain(variable_get('site_name', ''))) {
+    $copyright_block_copyrightholder = $edit['copyright_block_copyrightholder'];
+    if ($copyright_block_copyrightholder == variable_get('site_name', '')) {
       $copyright_block_copyrightholder = '';
     }
     variable_set('copyright_block_copyrightholder', $copyright_block_copyrightholder);
-    $copyright_block_inceptionyear = check_plain($edit['copyright_block_inceptionyear']);
-    $current_year = (int) date('Y', REQUEST_TIME);
-    if ((int) $copyright_block_inceptionyear > $current_year) {
+    $copyright_block_inceptionyear = intval($edit['copyright_block_inceptionyear']);
+    $current_year = date('Y', REQUEST_TIME);
+    if ($copyright_block_inceptionyear > $current_year) {
       $copyright_block_inceptionyear = $current_year;
     }
     variable_set('copyright_block_inceptionyear', $copyright_block_inceptionyear);
