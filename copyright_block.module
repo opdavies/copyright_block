@@ -30,13 +30,16 @@ function copyright_block_block_view($delta = '') {
 
       // Check if an inception year is given.
       $year = variable_get('copyright_block_inceptionyear');
+      $currentYear = date('Y', REQUEST_TIME);
       if ($year) {
-        // Show something like 2003 - 2011.
-        $year .= ' - ' . date('Y', REQUEST_TIME);
+        // Show something like 2003 - 2011, if not current year.
+        if ($year != $currentYear) {
+          $year .= ' - ' . $currentYear;
+        }
       }
       else {
         // Show only the current year.
-        $year = date('Y', REQUEST_TIME);
+        $year = $currentYear;
       }
 
       // Check if there is a name for the copyright holder.
