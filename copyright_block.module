@@ -65,9 +65,12 @@ function copyright_block_block_view($delta = '') {
 function copyright_block_block_configure($delta = '') {
   $form = array();
   if ($delta == 'copyright') {
-
+    $form['copyright_block'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Copyright settings'),
+    );
     // Plain text field for the name of the copyright holder.
-    $form['copyright_block_copyrightholder'] = array(
+    $form['copyright_block']['copyright_block_copyrightholder'] = array(
       '#type' => 'textfield',
       '#title' => t('Copyright holder'),
       '#size' => 64,
@@ -77,7 +80,7 @@ function copyright_block_block_configure($delta = '') {
 
     // Plain text field for the year the copyright starts.
     $inceptionyear = variable_get('copyright_block_inceptionyear');
-    $form['copyright_block_inceptionyear'] = array(
+    $form['copyright_block']['copyright_block_inceptionyear'] = array(
       '#type' => 'textfield',
       '#title' => t('Copyright starting year'),
       '#size' => 8,
