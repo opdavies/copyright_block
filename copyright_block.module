@@ -34,7 +34,16 @@ function copyright_block_block_view($delta = '') {
       if ($year) {
         // Show something like 2003 - 2011, if not current year.
         if ($year != $currentYear) {
-          $year .= ' - ' . $currentYear;
+          // Load the template for displaying spacer between the copyright year.
+          $spacer = variable_get('copyright_block_spacertemplate');
+          if (!$spacer) {
+            // No template set, set default fallback.
+            $spacer = ' - ';
+          } else {
+            // Assure that we don't put out unescaped HTML.
+            $spacer = check_plain($spacer);
+          }
+          $year .= $spacer . $currentYear;
         }
       }
       else {
@@ -102,14 +111,29 @@ function copyright_block_block_configure($delta = '') {
       '#default_value' => $inceptionyear ? $inceptionyear : '',
     );
 
+    $form['copyright_block_display'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Copyright display settings'),
+    );
+
     // Template to use to display the copyright
     $template = variable_get('copyright_block_template');
-    $form['copyright_block']['copyright_block_template'] = array(
+    $form['copyright_block_display']['copyright_block_template'] = array(
       '#type' => 'textfield',
       '#title' => t('Display template'),
       '#size' => 64,
       '#description' => t('Template to be used to display the copyright. [year] will be replaced by the date range, [holder] will be replaced by the copyright holder.'),
       '#default_value' => $template ? $template : '[holder] [year]',
+    );
+
+    // Template to use to display the copyright
+    $template = variable_get('copyright_block_spacertemplate');
+    $form['copyright_block_display']['copyright_block_spacertemplate'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Spacer template'),
+      '#size' => 64,
+      '#description' => t('Template that will be used to separate the year values (only used if the inception year is in the past).'),
+      '#default_value' => $template ? $template : ' - ',
     );
 
   }
@@ -135,6 +159,7 @@ function copyright_block_block_save($delta = '', $edit = array()) {
     }
     variable_set('copyright_block_inceptionyear', $copyright_block_inceptionyear);
     variable_set('copyright_block_template', $edit['copyright_block_template']);
+    variable_set('copyright_block_spacertemplate', $edit['copyright_block_spacertemplate']);
   }
 }
 

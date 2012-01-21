@@ -42,3 +42,22 @@ like
 
 The variable used to store the value is "copyright_block_inceptionyear"
 
+You are also allowed to configure the display of the copyright block
+
+1. Display template
+
+This allows you to change the overall display of the copyright block. By
+default it will display the holder followed by the year. This is done using
+two simple replacements. The value "[holder] [year]" contains the placeholders
+
+"[holder]": This will be replaced by the value of the copyright holder (see
+above).
+
+"[year]": This will be replaced by the current year (or by the year range if a
+starting year is set)
+
+2. Spacer template
+
+You can configure the spacer template that will be used to seperate two years.
+It will be used only if the copyright starting year is set and is different
+from the current year.

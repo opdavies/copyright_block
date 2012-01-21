@@ -12,6 +12,7 @@ function copyright_block_uninstall() {
   variable_del('copyright_block_inceptionyear');
   variable_del('copyright_block_copyrightholder');
   variable_del('copyright_block_template');
+  variable_del('copyright_block_spacertemplate');
 
   db_delete('block')->condition('module', 'copyright_block')->condition('delta', 'copyright')->execute();
 }
