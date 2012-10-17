@@ -47,7 +47,7 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
     return $form;
   }
   else if ($op == 'save' && $delta == 0) {
-    variable_set('copyright_block_start_year', $edit['start_year']);
+    variable_set('copyright_block_start_year', check_plain($edit['start_year']));
   }
   else if ($op == 'view') {
     $block = array();
