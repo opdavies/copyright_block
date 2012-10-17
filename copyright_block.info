@@ -1,0 +1,6 @@
+name = Copyright Block
+description = Creates a dynamic copyright information block.
+core = 7.x
+package = Custom
+configure = admin/structure/block/manage/copyright_block/copyright_block/configure
+dependencies[] = token

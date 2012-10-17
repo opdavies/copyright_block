@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Copyright Block module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function copyright_block_install() {
+  variable_set('copyright_block_start_year', date('Y'));
+  variable_set('copyright_block_text', 'Copyright &copy; [site:name], [copyright_statement:dates].');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function copyright_block_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE 'copyright_block_'");
+}
