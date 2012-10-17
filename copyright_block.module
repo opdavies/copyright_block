@@ -10,7 +10,7 @@
  */
 function copyright_block_block_info() {
   $blocks['copyright_block'] = array(
-    'info' => t('Copyright'),
+    'info' => t('Copyright statement'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
 
@@ -29,15 +29,17 @@ function copyright_block_block_configure($delta = '') {
         '#title' => t('Start year'),
         '#type' => 'textfield',
         '#required' => TRUE,
-        '#default_value' => variable_get('copyright_block_start_year'),
+        '#default_value' => variable_get('copyright_block_start_year', date('Y')),
         '#element_validate' => array('copyright_block_validate_start_year'),
       );
+
       $form['text'] = array(
         '#title' => t('Copyright statement text.'),
         '#type' => 'textarea',
         '#required' => TRUE,
-        '#default_value' => variable_get('copyright_block_text'),
+        '#default_value' => variable_get('copyright_block_text', t('Copyright &copy; [site:name], [copyright_statement:dates].')),
       );
+
       $form['view']['token_help'] = array(
         '#title' => t('Replacement patterns'),
         '#type' => 'fieldset',
@@ -71,7 +73,7 @@ function copyright_block_block_view($delta = '') {
 
   switch ($delta) {
     case 'copyright_block':
-      $block['subject'] = t('Copyright information');
+      $block['subject'] = t('Copyright statement');
       $block['content'] = copyright_block_block_content();
       break;
   }
@@ -83,7 +85,7 @@ function copyright_block_block_view($delta = '') {
  * Display the copyright message.
  */
 function copyright_block_block_content() {
-  return token_replace(variable_get('copyright_block_text'));
+  return token_replace(variable_get('copyright_block_text', t('Copyright &copy; [site:name], [copyright_statement:dates].')));
 }
 
 /**
@@ -139,7 +141,7 @@ function copyright_block_tokens($type, $tokens, array $data = array(), array $op
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'dates':
-          $start_year = variable_get('copyright_block_start_year');
+          $start_year = variable_get('copyright_block_start_year', date('Y'));
           $current_year = date('Y');
 
           $replacements[$original] = $start_year < $current_year ? $start_year . '-' . $current_year : $start_year;
