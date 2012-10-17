@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file
+ * Creates a dynamic customisable copyright message block.
+ */
+
+/**
+ * Implementation of hook_block().
+ */
+function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op == 'list') {
+    $blocks[0] = array(
+      'info' => t('Copyright statement'),
+      'cache' => DRUPAL_CACHE_GLOBAL,
+    );
+
+    return $blocks;
+  }
+  else if ($op == 'configure' && $delta == 0) {
+    $form['start_year'] = array(
+      '#title' => t('Start year'),
+      '#type' => 'textfield',
+      '#required' => TRUE,
+      '#default_value' => variable_get('copyright_block_start_year', date('Y')),
+    );
+
+    $form['text'] = array(
+      '#title' => t('Copyright message'),
+      '#type' => 'textarea',
+      '#required' => TRUE,
+      '#default_value' => variable_get('copyright_block_message', t('Copyright &copy; [site-name], [copyright-block-dates].')),
+    );
+
+    $form['view']['token_help'] = array(
+      '#title' => t('Replacement patterns'),
+      '#type' => 'fieldset',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+
+    $form['view']['token_help']['help'] = array(
+      '#value' => theme('token_help', 'global'),
+    );
+
+    return $form;
+  }
+  else if ($op == 'save' && $delta == 0) {
+    variable_set('copyright_block_start_year', $edit['start_year']);
+  }
+  else if ($op == 'view') {
+    $block = array();
+
+    switch ($delta) {
+      case 0:
+        $block['subject'] = t('Copyright block');
+        $block['content'] = copyright_block_block_1_content();
+        break;
+    }
+
+    return $block;
+  }
+}
+
+function copyright_block_block_1_content() {
+  return token_replace(variable_get('copyright_block_message', t('Copyright &copy; [copyright-block-dates] [site-name].')));
+}
+
+function copyright_block_token_values($type, $object = NULL, $options = array()) {
+  $values = array();
+
+  if ($type == 'global') {
+    $start_year = variable_get('copyright_block_start_year', date('Y'));
+    $current_year = date('Y');
+
+    $values['copyright-block-dates'] = $current_year > $start_year ? $start_year . '-' . $current_year : $start_year;
+  }
+
+  return $values;
+}

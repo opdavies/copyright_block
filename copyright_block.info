@@ -1,0 +1,4 @@
+name = Copyright Block
+description = Creates a dynamic customisable copyright message block.
+core = 6.x
+dependencies[] = block
