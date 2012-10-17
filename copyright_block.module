@@ -23,6 +23,7 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
       '#type' => 'textfield',
       '#required' => TRUE,
       '#default_value' => variable_get('copyright_block_start_year', date('Y')),
+      '#element_validate' => array('copyright_block_validate_start_year'),
     );
 
     $form['text'] = array(
@@ -53,7 +54,7 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
 
     switch ($delta) {
       case 0:
-        $block['subject'] = t('Copyright block');
+        $block['subject'] = t('Copyright statement');
         $block['content'] = copyright_block_block_1_content();
         break;
     }
@@ -63,10 +64,31 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
 }
 
 /**
+ * Validates the start year.
+ */
+function copyright_block_validate_start_year($element, &$form_state) {
+  $value = $element['#value'];
+  $current_year = date('Y');
+
+  if (!is_numeric($value)) {
+    form_error($element, t('The start year must be numeric.'));
+  }
+  else if (drupal_strlen($value) < 4) {
+    form_error($element, t('The start year is too short.'));
+  }
+  else if (drupal_strlen($value) > 4) {
+    form_error($element, t('The start year is too long.'));
+  }
+  else if ($value > $current_year) {
+    form_error($element, t('The start year cannot be in the future.'));
+  }
+}
+
+/**
  * Displays the copyright statement.
  */
 function copyright_block_block_1_content() {
-  return token_replace(variable_get('copyright_block_message', t('Copyright &copy; [copyright-block-dates] [site-name].')));
+  return token_replace(variable_get('copyright_block_message', t('Copyright &copy; [copyright-block-dates], [site-name].')));
 }
 
 /**
