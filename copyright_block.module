@@ -17,7 +17,7 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
 
     return $blocks;
   }
-  else if ($op == 'configure' && $delta == 0) {
+  elseif ($op == 'configure' && $delta == 0) {
     $form['start_year'] = array(
       '#title' => t('Start year'),
       '#type' => 'textfield',
@@ -46,10 +46,10 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
 
     return $form;
   }
-  else if ($op == 'save' && $delta == 0) {
+  elseif ($op == 'save' && $delta == 0) {
     variable_set('copyright_block_start_year', check_plain($edit['start_year']));
   }
-  else if ($op == 'view') {
+  elseif ($op == 'view') {
     $block = array();
 
     switch ($delta) {
@@ -73,13 +73,13 @@ function copyright_block_validate_start_year($element, &$form_state) {
   if (!is_numeric($value)) {
     form_error($element, t('The start year must be numeric.'));
   }
-  else if (drupal_strlen($value) < 4) {
+  elseif (drupal_strlen($value) < 4) {
     form_error($element, t('The start year is too short.'));
   }
-  else if (drupal_strlen($value) > 4) {
+  elseif (drupal_strlen($value) > 4) {
     form_error($element, t('The start year is too long.'));
   }
-  else if ($value > $current_year) {
+  elseif ($value > $current_year) {
     form_error($element, t('The start year cannot be in the future.'));
   }
 }
