@@ -62,10 +62,16 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
   }
 }
 
+/**
+ * Displays the copyright statement.
+ */
 function copyright_block_block_1_content() {
   return token_replace(variable_get('copyright_block_message', t('Copyright &copy; [copyright-block-dates] [site-name].')));
 }
 
+/**
+ * Implementation of hook_token_values().
+ */
 function copyright_block_token_values($type, $object = NULL, $options = array()) {
   $values = array();
 
