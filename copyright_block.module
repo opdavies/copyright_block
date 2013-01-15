@@ -48,6 +48,7 @@ function copyright_block_block($op = 'list', $delta = 0, $edit = array()) {
   }
   elseif ($op == 'save' && $delta == 0) {
     variable_set('copyright_block_start_year', filter_xss($edit['start_year']));
+    variable_set('copyright_block_message', filter_xss($edit['text']));
   }
   elseif ($op == 'view') {
     $block = array();
