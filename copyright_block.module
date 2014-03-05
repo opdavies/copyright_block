@@ -146,13 +146,15 @@ function copyright_block_tokens($type, $tokens, array $data = array(), array $op
   $replacements = array();
 
   if ($type == 'copyright_statement') {
+    $separator = variable_get('copyright_block_seperator', '-');
+
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'dates':
           $start_year = variable_get('copyright_block_start_year', date('Y'));
           $current_year = date('Y');
 
-          $replacements[$original] = $start_year < $current_year ? $start_year . '-' . $current_year : $start_year;
+          $replacements[$original] = $start_year < $current_year ? $start_year . $separator . $current_year : $start_year;
           break;
       }
     }
