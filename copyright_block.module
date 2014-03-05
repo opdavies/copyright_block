@@ -33,6 +33,13 @@ function copyright_block_block_configure($delta = '') {
         '#element_validate' => array('copyright_block_validate_start_year'),
       );
 
+      $form['seperator'] = array(
+        '#title' => t('Seperator'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#default_value' => variable_get('copyright_block_seperator', '-'),
+      );
+
       $form['text'] = array(
         '#title' => t('Copyright statement text.'),
         '#type' => 'textarea',
@@ -62,6 +69,7 @@ function copyright_block_block_configure($delta = '') {
 function copyright_block_block_save($delta = '', $edit = array()) {
   // Update the start year variable.
   variable_set('copyright_block_start_year', $edit['start_year']);
+  variable_set('copyright_block_seperator', $edit['seperator']);
   variable_set('copyright_block_text', filter_xss($edit['text']));
 }
 
