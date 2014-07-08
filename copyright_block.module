@@ -93,7 +93,7 @@ function copyright_block_block_view($delta = '') {
  * Display the copyright message.
  */
 function copyright_block_block_content() {
-  return token_replace(variable_get('copyright_block_text', t('Copyright &copy; [site:name], [copyright_statement:dates].')));
+  return token_replace(t(variable_get('copyright_block_text', 'Copyright &copy; [site:name], [copyright_statement:dates].')));
 }
 
 /**
