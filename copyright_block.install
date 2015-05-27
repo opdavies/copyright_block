@@ -6,6 +6,19 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function copyright_block_install() {
+  // Add default copyright block content.
+  variable_set('copyright_block_text',
+    array(
+      'value'  => t('Copyright &copy; [site:name], [copyright_statement:dates].'),
+      'format' => 'full_html',
+    )
+  );
+}
+
+/**
  * Implements hook_uninstall().
  */
 function copyright_block_uninstall() {

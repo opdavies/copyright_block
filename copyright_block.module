@@ -40,11 +40,14 @@ function copyright_block_block_configure($delta = '') {
         '#default_value' => variable_get('copyright_block_seperator', '-'),
       );
 
+      $copyright_block_text = variable_get('copyright_block_text');
+
       $form['text'] = array(
         '#title' => t('Copyright statement text.'),
-        '#type' => 'textarea',
+        '#type' => 'text_format',
         '#required' => TRUE,
-        '#default_value' => variable_get('copyright_block_text', t('Copyright &copy; [site:name], [copyright_statement:dates].')),
+        '#default_value' => $copyright_block_text['value'],
+        '#format' => $copyright_block_text['format'],
       );
 
       $form['view']['token_help'] = array(
@@ -70,7 +73,7 @@ function copyright_block_block_save($delta = '', $edit = array()) {
   // Update the start year variable.
   variable_set('copyright_block_start_year', $edit['start_year']);
   variable_set('copyright_block_seperator', $edit['seperator']);
-  variable_set('copyright_block_text', filter_xss($edit['text']));
+  variable_set('copyright_block_text', $edit['text']);
 }
 
 /**
@@ -93,7 +96,8 @@ function copyright_block_block_view($delta = '') {
  * Display the copyright message.
  */
 function copyright_block_block_content() {
-  return token_replace(t(variable_get('copyright_block_text', 'Copyright &copy; [site:name], [copyright_statement:dates].')));
+  $copyright_block_text = variable_get('copyright_block_text');
+  return token_replace($copyright_block_text['value']);
 }
 
 /**
