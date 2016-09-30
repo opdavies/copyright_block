@@ -33,7 +33,7 @@ class CopyrightBlock extends BlockBase implements BlockPluginInterface {
 
     $config = $this->getConfiguration();
 
-    $form['start_year'] = array(
+    $form['start_year'] = [
       '#title' => t('Start year'),
       '#type' => 'number',
       '#min' => '1900',
@@ -41,26 +41,26 @@ class CopyrightBlock extends BlockBase implements BlockPluginInterface {
       '#required' => TRUE,
       '#default_value' => $config['start_year'],
       '#element_validate' => array($this, 'validateStartYear'),
-    );
+    ];
 
-    $form['seperator'] = array(
+    $form['seperator'] = [
       '#title' => t('Seperator'),
       '#type' => 'textfield',
       '#required' => TRUE,
       '#default_value' => $config['seperator'],
-    );
+    ];
 
-    $form['text'] = array(
-      '#title' => t('Copyright statement text.'),
+    $form['text'] = [
+      '#title' => t('Copyright statement text'),
       '#type' => 'text_format',
       '#required' => TRUE,
       '#default_value' => $config['text']['value'],
       '#format' => $config['text']['format'],
-    );
+    ];
 
-    $form['token_tree'] = array(
+    $form['token_tree'] = [
       '#theme' => 'token_tree_link',
-    );
+    ];
 
     return $form;
   }
@@ -82,11 +82,11 @@ class CopyrightBlock extends BlockBase implements BlockPluginInterface {
     $token = \Drupal::token();
 
     // Token data.
-    $text = $token->replace($config['text']['value'], array(), array('config' => $config));
+    $text = $token->replace($config['text']['value'], [], compact('config'));
 
-    return array(
+    return [
       '#markup' => $text,
-    );
+    ];
   }
 
   /**
@@ -95,13 +95,13 @@ class CopyrightBlock extends BlockBase implements BlockPluginInterface {
   public function defaultConfiguration() {
     $default_config = \Drupal::config('copyright_block.settings');
 
-    return array(
+    return [
       'start_year' => date('Y'),
       'seperator' => $default_config->get('seperator'),
-      'text' => array(
+      'text' => [
         'value' => $default_config->get('text.value'),
         'format' => $default_config->get('text.format'),
-      ),
-    );
+      ],
+    ];
   }
 }

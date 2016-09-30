@@ -6,22 +6,22 @@ use Drupal\Core\Render\BubbleableMetadata;
  * Implements hook_token_info().
  */
 function copyright_block_token_info() {
-  $types['copyright_statement'] = array(
+  $types['copyright_statement'] = [
     'name' => t('Copyright statement'),
     'description' => t('Tokens for the copyright statement block'),
-  );
+  ];
 
-  $copyright_statement['dates'] = array(
+  $copyright_statement['dates'] = [
     'name' => t('Dates'),
     'description' => t('The start and end dates for the copyright statement.'),
-  );
+  ];
 
-  return array(
+  return [
     'types' => $types,
-    'tokens' => array(
+    'tokens' => [
       'copyright_statement' => $copyright_statement,
-    ),
-  );
+    ],
+  ];
 }
 
 /**
