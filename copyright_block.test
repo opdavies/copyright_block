@@ -53,7 +53,7 @@ class CopyrightBlockTestCase extends DrupalWebTestCase {
     $edit = array(
       'regions[bartik]' => 'footer',
       'start_year' => $start_year,
-      'seperator' => $separator,
+      'separator' => $separator,
     );
 
     $output = $start_year . $separator . date('Y');
